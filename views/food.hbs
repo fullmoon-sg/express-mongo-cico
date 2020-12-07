@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Meal</lth>
+                <th>Calories</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        {{#each foodRecords}}
+            <tr>
+                <td>{{this.date}}</td>
+                <td>{{this.name}}</td>
+                <td>{{this.meal}}</td>
+                <td>{{this.calories}}</td>
+                <td>{{this.tag}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</body>
+</html>

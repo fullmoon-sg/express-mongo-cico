@@ -1,0 +1,47 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST">
+        <div>
+            <label>Name:</label>
+            <input type="text" name="name" />
+        </div>
+        <div>
+            <label>Calories:</label>
+            <input type="text" name="calories"/>
+        </div>
+        <div>
+            <label>Meal:</label>
+            <select name="meal">
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="snack">Snack/Supper</option>
+            </select>
+        </div>
+        <div>
+            <label>Date:</label>
+            <input type="date" name="date"/>
+        </div>
+
+        <div>
+            <label>Tags:</label>
+            <div>
+                <input name="tags" type="checkbox" value="unhealthy"><label>Unhealthy</label>
+                <input name="tags" type="checkbox" value="oily"><label>Oily</label>
+                <input name="tags" type="checkbox" value="delicious"><label>Delicious</label>
+                <input name="tags" type="checkbox" value="vegan"><label>Vegan</label>
+                <input name="tags" type="checkbox" value="gluten-free"><label>Gluten Free</label>
+                <input name="tags" type="checkbox" value="impossible-meat"><label>Impossible Meat</label>
+            </div>
+        </div>
+
+        <input type="submit"/>
+    <form>
+</body>
+</html>
