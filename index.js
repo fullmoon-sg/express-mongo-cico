@@ -1,6 +1,7 @@
 // EXPRESS AND OTHER SETUP
 const express = require('express');
 const MongoUtil = require('./MongoUtil.js')
+const ObjectId  = require('mongodb').ObjectId;
 const hbs = require('hbs')
 const wax = require('wax-on')
 
@@ -17,39 +18,94 @@ app.set('view engine', 'hbs')
 app.use(express.static('public'))
 //allows express to datasubmitted via form
 app.use(express.urlencoded({extended:false}))
+
+// app.use(cookieParser("secret"))
+// app.use(session({
+//     cookie:{
+//         maxAge:60000
+//     }
+// }))
+
+
+// app.use(function(req,res,next) {
+//     res.locals.success_message = req.flash("success_messages");
+//     res.locals.err_messages= req.flash("error_messages");
+//     next(); 
+// })
+
 // setup template inheritance
 wax.on(hbs.handlebars);
 wax.setLayoutPath('./views/layouts')
 
+var helpers = require("handlebars-helpers")({
+    handlebars : hbs.handlebars
+});
+
 async function main() {
     const MONGO_URL=process.env.MONGO_URL;
-    await MongoUtil.connect(MONGO_URL, "tgc9_cico");
+    await MongoUtil.connect(MONGO_URL, "Fault_Reporting");
     let db = MongoUtil.getDB();
 
-    app.get('/', async (req,res) => {
-        let food = await db.collection('food').find().toArray();
-        res.render('food', {
-            'foodRecords' : food
-        })
-    })
+     app.get('/', async (req,res) => {
+         let results = await db.collection('faults').find().toArray();
+         res.render('fault', {
+             'faults' : results
+         })
+     })
 
-      app.get('/food/add', async (req,res)=>{
-        res.render('add_food')
-    })
+    app.get('/faults/add', async (req,res) =>{
+        res.render('add_fault');
+    }) 
 
-app.post('/food/add', async (req,res)=> {
-    let {name,calories,meal,date,tags} = req.body;
-    let newFoodRecord = {
-        'name' :name,
-        'calories' : parseInt(calories),
-        'meal' : meal,
-        'date' : new Date(date),
-        'tag' :tags
-    }
-    await db.collection('food').insertOne(newFoodRecord);
-    res.redirect('/')
+app.post('/faults/add', async (req,res) =>{
+    let {title,location,tags,block,reporter_name,report_email,date} = req.body;
+    
+    let newFaultRecord = {title,location,tags,block,reporter_name,report_email,
+        'date': new Date(date)};
+         await db.collection('faults').insertOne(newFaultRecord);
+        res.redirect('/')
 })
- 
+
+app.get('/fault/:id/update', async (req,res) => {
+    let fault = await db.collection('faults').findOne({
+        '_id' : ObjectId(req.params.id)
+    })    
+    res.render('fault_form', {
+        'fault' : fault
+    })
+})
+
+app.post('/fault/:id/update', async (req,res) => {
+    let updateFaultRecord = {};
+      updateFaultRecord.title = req.body.title;
+     updateFaultRecord.location = req.body.location;
+      updateFaultRecord.block = req.body.block;
+       updateFaultRecord.tags = req.body.tags;
+        updateFaultRecord.reporter_name = req.body.reporter_name;
+         updateFaultRecord.reporter_email = req.body.reporter_email;
+
+await db.collection('faults').updateOne({
+    '_id' : ObjectId(req.params.id)
+},{ '$set' : updateFaultRecord});
+res.redirect('/');
+})
+
+app.get('/fault/:id/delete', async (req,res) => {
+
+    let record = await db.collection('faults').findOne({
+        '_id' : ObjectId(req.params.id)
+    })
+    res.render('confirm_delete_fault', {
+        'fault' : record
+    })
+})
+
+app.post('/fault/:id/delete', async (req,res) => {
+    await db.collection('faults').deleteOne({'_id': ObjectId(req.params.id)
+})
+res.redirect('/')
+})
+
 }
 
 main();

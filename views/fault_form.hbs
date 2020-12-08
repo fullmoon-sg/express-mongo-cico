@@ -1,0 +1,47 @@
+{{#extends 'base'}}
+{{#block 'content'}}
+<h1>Report Faults</h1>
+<form method="POST">
+            <div>
+                <label class="form-label">Title:</label>
+                <input type="text" name="title" class="form-control" value = "{{fault.title}}"/>
+            </div>
+            <div>
+                <labe class="form-label">Location</label>
+                <input type="text" name="location" class="form-control" value="{{fault.location}}"/>
+            </div>
+             <div>
+                <label class="form-label">Tags:</label>
+                <div>
+                    <input  name="tags" type="checkbox" value="Urgent"><label class="form-check-label" {{#inArray fault.tags 'urgent'}}checked{{/inArray}}>Urgent</label>
+                    <input name="tags" type="checkbox" value="Important"><label class="form-check-label"{{#inArray fault.tags 'important'}}checked{{/inArray}}>Important</label>
+                    <input name="tags" type="checkbox" value="Equipment-fault"{{#inArray fault.tags 'equipment-fault'}}checked{{/inArray}}><label>Equipment Fault</label>     
+                </div>
+            </div>
+            <div>
+                <label class="form-label">Block</label>
+                <div>
+                    <input  name="block" type="radio" value="304" {{#eq fault.tags '304'}}checked{{/eq}}><label class="form-check-label">Block 304</label>
+                    <input name="block" type="radio" value="305" {{#eq fault.tags '305'}}checked{{/eq}}><label class="form-check-label">Block 305</label>
+                    <input name="block" type="radio" value="306" {{#eq fault.tags '306'}}checked{{/eq}}><label>Block 306</label>
+                    
+                </div>
+            </div>
+            
+            <div>
+                <label class="form-label">Reporter's Name</label>
+                <input type="text" name="reporter_name" class="form-control" value="{{fault.reporter_name}}" />
+            </div>
+            <div>
+                <labe class="form-label">Reporter's Email</label>
+                <input type="text" name="reporter_email" class="form-control" value="{{fault.reporter_email}}"/>
+            </div>
+            <div>
+                <labe class="form-label">Date</label>
+                <input type="date" name="date" class="form-control"/>
+            </div>
+           
+            <input class=" btn btn-primary" type="submit"/>
+        <form>
+{{/block}}
+{{/extends}}

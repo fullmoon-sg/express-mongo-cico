@@ -1,0 +1,32 @@
+{{#extends 'base'}}
+{{#block 'content'}}
+<h1>Food Records</h1>
+ <table class="table">
+        <thead>
+            <tr>
+                <td>Title</td>
+                <td>Location</td>
+                <td>Tags</td>
+                <td>Block</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td></td>
+            </tr>
+        </thead>
+        {{#each faults}}
+            <tr>
+                <td>{{this.title}}</td>
+                <td>{{this.location}}</td>
+                <td>{{this.tags}}</td>
+                <td>{{this.block}}</td>
+                <td>{{this.reporter_name}}</td>
+                <td>{{this.reporter_email}}</td>
+                <td>
+                <a href="/fault/{{this._id}}/update" class="btn btn-primary btn-sm">Edit</a>
+                <a href="/fault/{{this._id}}/delete" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+    {{/block}}
+{{/extends}}

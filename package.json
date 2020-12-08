@@ -17,12 +17,16 @@
   },
   "homepage": "https://github.com/fullmoon-sg/express-mongo-cico#readme",
   "dependencies": {
+    "connect-flash": "^0.1.1",
+    "cookieparser": "^0.1.0",
+    "date": "^1.0.2",
     "dotenv": "^8.2.0",
     "env": "^0.0.2",
     "express": "^4.17.1",
     "handlebars-helpers": "^0.10.0",
     "hbs": "^4.1.1",
     "mongodb": "^3.6.3",
+    "session": "^0.1.0",
     "wax-on": "^1.2.2"
   }
 }

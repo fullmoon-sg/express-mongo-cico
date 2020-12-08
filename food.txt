@@ -1,0 +1,47 @@
+ app.get('/', async (req,res) => {
+        let food = await db.collection('food').find().toArray();
+        res.render('food', {
+            'foodRecords' : food
+        })
+    })
+
+    app.get('/food/add', async (req,res)=>{
+        res.render('add_food')
+    })
+
+    app.post('/food/add', async(req,res)=> {
+        let {name,calories,meal,tags, date} = req.body;
+        let newFoodRecord = { 
+            'name': name,
+            'calories' : parseFloat(calories),
+            'meal': meal,
+            'date': new Date(date),
+            'tags': tags
+        }
+        await db.collection('food').insertOne(newFoodRecord);
+        res.redirect('/')
+    })
+
+//   app.get('/food/:id/update', async (req, res) => {
+//    let record = await db.collection('food').findOne({
+//        '_id' : ObjectId(req.params.id)
+//    })
+//     res.render('edit_food', {
+//         'record' : record
+//     })
+//   }) 
+  
+  app.get('/food/:id/update', async(req,res)=>{
+
+        // 1. fetch the existing record
+        // use findOne() when we expect only one result
+        let record = await db.collection('food').findOne({
+            '_id': ObjectId(req.params.id)
+        })
+
+        // 2. pass the existing record to the hbs file so that
+        // we can the existing information in the form
+        res.render('edit_food', {
+            'record': record
+        })
+    })

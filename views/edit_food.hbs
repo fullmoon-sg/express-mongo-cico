@@ -1,0 +1,47 @@
+{{!--  
+{{#extends 'base'}}
+
+        {{#block 'content'}}
+        <form method="POST">
+            <div>
+                <label class="form-label">Name:</label>
+                <input type="text" name="name" class="form-control" value="{{record.name}}" />
+            </div>
+            <div>
+                <labe class="form-label"l>Calories:</label>
+                <input type="text" name="calories" class="form-control" value="{{record.calories}}"/>
+            </div>
+            <div>
+                <label class="form-label">Meal:</label>
+                <select name="meal" class="form-control">
+                    <option value="breakfast" {{#eq record.meal 'breakfast'}}selected{{/eq}}>Breakfast</option>
+                    <option value="lunch"  {{#eq record.meal 'lunch'}}selected{{/eq}}>Lunch</option>
+                    <option value="dinner"  {{#eq record.meal 'dinner'}}selected{{/eq}}>Dinner</option>
+                    <option value="snack"  {{#eq record.meal 'snack'}}selected{{/eq}}>Snack/Supper</option>
+                </select>
+            </div>
+            <div>
+                <label class="form-label">Date:</label>
+                <input class="form-control" type="date" name="date" value="{{date record.date "YYYY-MM-DD"}}"/>
+            </div>
+
+            <div>
+                <label class="form-label">Tags:</label>
+                <div>
+                    <input class="form-check-input mr-3" name="tags" type="checkbox" value="unhealthy"
+                         {{#inArray record.tags 'unhealthy'}}checked{{/inArray}}>
+                         <label class="form-check-label">Unhealthy</label>
+
+                    <input class="form-check-input mr-3" name="tags" type="checkbox" value="oily" {{#inArray record.tags "oily"}}checked{{/inArray}}><label class="form-check-label">Oily</label>
+                    <input class="form-check-input mr-3" name="tags" type="checkbox" value="delicious" {{#inArray record.tags "delicious"}}checked{{/inArray}}><label class="form-check-label">Delicious</label>
+                    <input class="form-check-input mr-3" name="tags" type="checkbox" value="vegan" {{#inArray record.tags "vegan"}}checked{{/inArray}}><label class="form-check-label">Vegan</label>
+                    <input class="form-check-input mr-3" name="tags" type="checkbox" value="gluten-free" {{#inArray record.tags "gluten-free"}}checked{{/inArray}}><label class="form-check-label">Gluten Free</label>
+                    <input class="form-check-input mr-3" name="tags" type="checkbox" value="impossible-meat" {{#inArray record.tags "impossible-meat"}}checked{{/inArray}}><label class="form-check-label">Impossible Meat</label>
+                </div>
+            </div>
+
+            <input type="submit"/>
+        <form>
+    {{/block}}
+
+{{/extends}} 
