@@ -1,10 +1,10 @@
 // EXPRESS AND OTHER SETUP
 const express = require('express');
-const MongoUtil = require('./MongoUtil.js')
+const MongoUtil = require('./MongoUtil.js');
 const ObjectId  = require('mongodb').ObjectId;
-const hbs = require('hbs')
-const wax = require('wax-on')
-
+const hbs = require('hbs');
+const wax = require('wax-on');
+const passport = require('./passport/setup');
 
 // load in environment variables
 require('dotenv').config();
@@ -18,7 +18,8 @@ app.set('view engine', 'hbs')
 app.use(express.static('public'))
 //allows express to datasubmitted via form
 app.use(express.urlencoded({extended:false}))
-
+app.use(passport.initialize());
+app.use(passport.session());
 // app.use(cookieParser("secret"))
 // app.use(session({
 //     cookie:{
@@ -58,9 +59,9 @@ async function main() {
     }) 
 
 app.post('/faults/add', async (req,res) =>{
-    let {title,location,tags,block,reporter_name,report_email,date} = req.body;
+    let {title,location,tags,block,reporter_name,reporter_email,date} = req.body;
     
-    let newFaultRecord = {title,location,tags,block,reporter_name,report_email,
+    let newFaultRecord = {title,location,tags,block,reporter_name,reporter_email,
         'date': new Date(date)};
          await db.collection('faults').insertOne(newFaultRecord);
         res.redirect('/')
@@ -106,12 +107,17 @@ app.post('/fault/:id/delete', async (req,res) => {
 res.redirect('/')
 })
 
+
+const userRoutes = require('./routes/userRoutes')
+app.use('/users',userRoutes);
+
+
+
 }
 
 main();
 
 // LISTEN
 app.listen(3000, ()=>{
-    console.log("Express is running")
-    
+    console.log("Express is running")   
 })
